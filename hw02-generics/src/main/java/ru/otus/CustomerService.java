@@ -2,7 +2,6 @@ package ru.otus;
 
 import java.util.Map;
 
-@SuppressWarnings({"java:S1186", "java:S1135", "java:S1172"}) // при выполнении ДЗ эту аннотацию надо удалить
 public class CustomerService {
 
     // todo: 3. надо реализовать методы этого класса
