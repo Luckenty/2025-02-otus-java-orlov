@@ -1,6 +1,6 @@
 package ru.otus;
 
-public class Customer {
+public class Customer implements Comparable<Customer> {
     private final long id;
     private String name;
     private long scores;
@@ -49,5 +49,11 @@ public class Customer {
     @Override
     public int hashCode() {
         return Long.hashCode(id);
+    }
+
+    @Override
+    public int compareTo(Customer o) {
+        int scoreCompare = Long.compare(this.scores, o.scores);
+        return scoreCompare != 0 ? scoreCompare : Long.compare(this.id, o.id);
     }
 }
