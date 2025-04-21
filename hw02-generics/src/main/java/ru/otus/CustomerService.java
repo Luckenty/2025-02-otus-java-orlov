@@ -1,40 +1,41 @@
 package ru.otus;
 
+import java.util.Comparator;
 import java.util.Map;
 import java.util.TreeMap;
 
 public class CustomerService {
 
-    private final TreeMap<Customer, String> customerMap = new TreeMap<>();
+    private final TreeMap<Customer, String> customerMap = new TreeMap<>(
+            Comparator.comparingLong(Customer::getScores).thenComparingLong(Customer::getId)
+    );
 
     public Map.Entry<Customer, String> getSmallest() {
-        var copyMap = new TreeMap<Customer,String>();
-        for (Map.Entry<Customer, String> entry : customerMap.entrySet()) {
-            copyMap.put(
-                    new Customer(
-                            entry.getKey().getId(),
-                            entry.getKey().getName(),
-                            entry.getKey().getScores()
+        var copy = customerMap.firstEntry();
+        if (copy != null) {
+            return Map.entry(new Customer(
+                            copy.getKey().getId(),
+                            copy.getKey().getName(),
+                            copy.getKey().getScores()
                     ),
-                    entry.getValue()
-            );
+                    copy.getValue());
+        } else {
+            return null;
         }
-        return copyMap.firstEntry();
     }
 
     public Map.Entry<Customer, String> getNext(Customer customer) {
-        var copyMap = new TreeMap<Customer,String>();
-        for (Map.Entry<Customer, String> entry : customerMap.entrySet()) {
-            copyMap.put(
-                    new Customer(
-                            entry.getKey().getId(),
-                            entry.getKey().getName(),
-                            entry.getKey().getScores()
+        var copy = customerMap.higherEntry(customer);
+        if (copy != null) {
+            return Map.entry(new Customer(
+                            copy.getKey().getId(),
+                            copy.getKey().getName(),
+                            copy.getKey().getScores()
                     ),
-                    entry.getValue()
-            );
+                    copy.getValue());
+        } else {
+            return null;
         }
-        return copyMap.higherEntry(customer);
     }
 
     public void add(Customer customer, String data) {

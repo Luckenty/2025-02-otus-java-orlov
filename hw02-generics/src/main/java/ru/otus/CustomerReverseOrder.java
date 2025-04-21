@@ -8,10 +8,10 @@ public class CustomerReverseOrder {
     private final Deque<Customer> deque = new ArrayDeque<>(10);
 
     public void add(Customer customer) {
-        deque.add(customer);
+        deque.push(customer);
     }
 
     public Customer take() {
-        return deque.pollLast();
+        return deque.pop();
     }
 }
