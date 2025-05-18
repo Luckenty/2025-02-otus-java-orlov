@@ -6,5 +6,6 @@ public class ProxyDemo {
         myClass.calculation(1);
         myClass.calculation(1, 3);
         myClass.calculation(5, 67, 22);
+        myClass.calculation(11, 5, 30, 20);
     }
 }

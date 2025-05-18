@@ -25,6 +25,11 @@ public class TestLoggingImpl implements TestLoggingInterface {
     }
 
     @Override
+    public void calculation(int param, int param2, int param3, int param4) {
+        logger.info("Some calculation work4");
+    }
+
+    @Override
     public String toString() {
         return "MyClassImpl{}";
     }
