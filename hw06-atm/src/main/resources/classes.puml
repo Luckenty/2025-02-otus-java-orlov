@@ -1,0 +1,56 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+class ATM{
+    List<Cell> banknoteCells
+    ATMProvider provider
+}
+
+interface ATMProvider {
+    void putBanknotes(List<Banknote> banknotes)
+    getBanknotes(int sum)
+    int getAll()
+}
+
+class ATMProviderImpl {
+    putBanknotes(List<Banknote> banknotes)
+    getBanknotes(int sum)
+}
+
+class Cell{
+        List<Banknote> banknote
+}
+
+class Banknote{
+    enum BanknoteValue
+}
+
+enum BanknoteValue {
+5000
+2000
+1000
+500
+100
+}
+
+ATM o-- ATMProvider
+ATMProvider <|- ATMProviderImpl
+
+@enduml
+
+abstract class AbstractList
+abstract AbstractCollection
+interface List
+interface Collection
+
+List <|-- AbstractList
+Collection <|-- AbstractCollection
+
+Collection <|- List
+AbstractCollection <|- AbstractList
+AbstractList <|-- ArrayList
+
+class ArrayList {
+Object[] elementData
+size()
+}
