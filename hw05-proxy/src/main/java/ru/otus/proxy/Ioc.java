@@ -7,7 +7,7 @@ import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.util.Arrays;
-import java.util.HashMap;
+import java.util.HashSet;
 
 class Ioc {
     private static final Logger logger = LoggerFactory.getLogger(Ioc.class);
@@ -23,27 +23,24 @@ class Ioc {
 
     static class DemoInvocationHandler implements InvocationHandler {
         private final Object myClass;
-        private final HashMap<String, Method> annotatedMethods;
+        private final HashSet<String> annotatedMethods;
 
         DemoInvocationHandler(Object myClass) {
             this.myClass = myClass;
-            this.annotatedMethods = new HashMap<>();
+            this.annotatedMethods = new HashSet<>();
             var methods = myClass.getClass().getDeclaredMethods();
             for (var method : methods) {
                 if (method.isAnnotationPresent(Log.class)) {
-                    annotatedMethods.put(MethodUtils.prettyPrint(method), method);
+                    annotatedMethods.add(MethodUtils.prettyPrint(method));
                 }
             }
         }
 
         @Override
         public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-            for (var key : annotatedMethods.keySet()) {
-                if (key.equals(MethodUtils.prettyPrint(method))) {
-                    var val = annotatedMethods.get(key);
-                    logger.info("executed method: {}, param: {}", method.getName(), Arrays.toString(args));
-                    return val.invoke(myClass, args);
-                }
+            if (annotatedMethods.contains(MethodUtils.prettyPrint(method))) {
+                logger.info("executed method: {}, param: {}", method.getName(), Arrays.toString(args));
+                return method.invoke(myClass, args);
             }
             return method.invoke(myClass, args);
         }

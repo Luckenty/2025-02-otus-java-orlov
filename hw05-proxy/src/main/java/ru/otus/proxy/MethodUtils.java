@@ -6,9 +6,7 @@ import java.util.stream.Collectors;
 
 public class MethodUtils {
     public static String prettyPrint(Method method) {
-        // Ваша собственная реализация
-        return String.format("%s %s(%s)",
-                method.getReturnType().getSimpleName(),
+        return String.format("%s(%s)",
                 method.getName(),
                 Arrays.stream(method.getParameterTypes())
                         .map(Class::getSimpleName)
